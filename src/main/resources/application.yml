@@ -1,0 +1,44 @@
+﻿spring:
+  application:
+    name: hazard-relocation
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hazard_relocation
+    username: postgres
+    password: Harsh123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: CHANGE_THIS_TO_A_LONG_RANDOM_SECRET_KEY_1234567890_ABCDEF
+    expiration: 86400000
+
+springdoc:
+  api-docs:
+    path: /api-docs
+
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.sih.hazardrelocation: INFO
+    org.springframework.security: INFO
