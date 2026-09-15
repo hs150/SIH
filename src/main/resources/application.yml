@@ -2,11 +2,14 @@
   application:
     name: hazard-relocation
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/hazard_relocation
-    username: postgres
-    password: Harsh123
-    driver-class-name: org.postgresql.Driver
+
+
+
+#  datasource:
+#    url: jdbc:postgresql://postgres.iwpjjqkmjgdqlnlhfzlu:Rahat@Harsh123@aws-0-ap-south-1.pooler.supabase.com:5432/postgres
+#    username: postgres.iwpjjqkmjgdqlnlhfzlu
+#    password: Rahat@Harsh123
+#    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
