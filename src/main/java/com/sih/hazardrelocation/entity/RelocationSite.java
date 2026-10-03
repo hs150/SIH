@@ -47,6 +47,14 @@ public class RelocationSite {
     @Column(columnDefinition = "geometry(Point,4326)")
     private Point geometry;
 
+    @com.fasterxml.jackson.annotation.JsonProperty("maxCapacity")
+    public Integer getMaxCapacity() {
+        if (availableArea != null && availableArea > 0) {
+            return (int) (availableArea * 15.0);
+        }
+        return 1200;
+    }
+
     @Column(name = "is_active", nullable = false)
     private Boolean active = true;
 

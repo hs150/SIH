@@ -241,7 +241,7 @@ export default function MapView({
                 }}
               >
                 <Popup>
-                  <div style={{ minWidth: 220 }}>
+                  <div style={{ minWidth: 260 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
                       <span style={{
                         background: color,
@@ -253,10 +253,26 @@ export default function MapView({
                       }}>
                         RED ZONE: {zone.riskLevel}
                       </span>
-                      <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{zone.source}</span>
+                      <span style={{
+                        fontSize: '0.68rem',
+                        fontWeight: 700,
+                        color: zone.source === 'USGS' ? '#38bdf8' : zone.source === 'OPEN_METEO' ? '#60a5fa' : '#94a3b8',
+                        background: 'rgba(255,255,255,0.08)',
+                        padding: '1px 6px',
+                        borderRadius: 3
+                      }}>
+                        {zone.source || 'MANUAL_FIELD_REPORT'}
+                      </span>
                     </div>
-                    <h3 style={{ fontSize: '0.95rem', fontWeight: 700, margin: '4px 0' }}>{zone.name}</h3>
+                    <h3 style={{ fontSize: '0.95rem', fontWeight: 700, margin: '4px 0', color: '#f8fafc' }}>{zone.name}</h3>
                     <p style={{ fontSize: '0.78rem', color: '#cbd5e1', marginTop: 4 }}>{zone.reason}</p>
+                    
+                    {/* Provenance Audit Metadata */}
+                    <div style={{ marginTop: 8, paddingTop: 6, borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '0.7rem', color: '#94a3b8', display: 'flex', flexDirection: 'column', gap: 2 }}>
+                      <div>Origin: <strong style={{ color: '#f1f5f9' }}>{zone.source === 'USGS' ? 'USGS Earthquake Hazards Program' : zone.source === 'OPEN_METEO' ? 'Open-Meteo High-Resolution Radar' : 'Ground Field Observation'}</strong></div>
+                      {zone.externalId && <div>External Ref: <code style={{ color: '#38bdf8' }}>{zone.externalId}</code></div>}
+                      {zone.fetchedAt && <div>Telemetry Synced: <span style={{ color: '#cbd5e1' }}>{new Date(zone.fetchedAt).toLocaleTimeString()}</span></div>}
+                    </div>
                   </div>
                 </Popup>
               </Polygon>
@@ -383,14 +399,44 @@ export default function MapView({
                 }}
               >
                 <Popup>
-                  <div style={{ minWidth: 220 }}>
-                    <span style={{ background: '#f59e0b', color: 'black', fontSize: '0.68rem', padding: '1px 6px', borderRadius: 4, fontWeight: 800 }}>
-                      HAZARD: {hazard.hazardType}
-                    </span>
-                    <div style={{ fontSize: '0.78rem', marginTop: 4, fontWeight: 700 }}>
-                      Severity: {hazard.severity}/100 | Date: {hazard.eventDate}
+                  <div style={{ minWidth: 260 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                      <span style={{ background: '#f59e0b', color: 'black', fontSize: '0.68rem', padding: '1px 6px', borderRadius: 4, fontWeight: 800 }}>
+                        HAZARD: {hazard.hazardType}
+                      </span>
+                      <span style={{
+                        fontSize: '0.68rem',
+                        fontWeight: 700,
+                        color: hazard.source === 'USGS' ? '#38bdf8' : hazard.source === 'OPEN_METEO' ? '#60a5fa' : '#94a3b8',
+                        background: 'rgba(255,255,255,0.08)',
+                        padding: '1px 6px',
+                        borderRadius: 3
+                      }}>
+                        {hazard.source || 'MANUAL_FIELD_REPORT'}
+                      </span>
                     </div>
-                    <p style={{ fontSize: '0.75rem', color: '#cbd5e1', marginTop: 4 }}>{hazard.description}</p>
+
+                    <div style={{ fontSize: '0.78rem', marginTop: 4, fontWeight: 700, color: '#f8fafc' }}>
+                      Severity: {hazard.severity}/100 | Event Date: {hazard.eventDate}
+                    </div>
+                    <p style={{ fontSize: '0.78rem', color: '#cbd5e1', marginTop: 4, lineHeight: 1.3 }}>{hazard.description}</p>
+
+                    {/* Verifiable Provenance Link */}
+                    <div style={{ marginTop: 8, paddingTop: 6, borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '0.7rem', color: '#94a3b8', display: 'flex', flexDirection: 'column', gap: 3 }}>
+                      <div>Feed Origin: <strong style={{ color: '#f1f5f9' }}>{hazard.source === 'USGS' ? 'USGS Earthquake Hazards Program' : hazard.source === 'OPEN_METEO' ? 'Open-Meteo High-Resolution Radar' : 'Ground Field Observation'}</strong></div>
+                      {hazard.externalId && <div>Identifier: <code style={{ color: '#38bdf8' }}>{hazard.externalId}</code></div>}
+                      {hazard.source === 'USGS' && hazard.externalId && (
+                        <a
+                          href={`https://earthquake.usgs.gov/earthquakes/eventpage/${hazard.externalId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: '#38bdf8', textDecoration: 'underline', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 3 }}
+                        >
+                          Verify on Official USGS Portal ↗
+                        </a>
+                      )}
+                      {hazard.fetchedAt && <div>Last Ingested: <span style={{ color: '#cbd5e1' }}>{new Date(hazard.fetchedAt).toLocaleTimeString()}</span></div>}
+                    </div>
                   </div>
                 </Popup>
               </CircleMarker>

@@ -146,4 +146,35 @@ export const api = {
     request(`/priorities/${habitationId}`, {
       method: 'POST',
     }),
+
+  // Real-Data Ingestion & Telemetry Health
+  getIngestionStatus: () => request('/ingestion/status'),
+  syncLiveData: () =>
+    request('/ingestion/sync', {
+      method: 'POST',
+    }),
+
+  // Predictive AI Risk Engine
+  getPredictiveAssessments: () => request('/predictive/assessments'),
+  getHabitationPredictiveRisk: (id) => request(`/predictive/assessment/${id}`),
+
+  // Optimal Resource Allocation (OR-Tools / Hungarian)
+  optimizeAllocation: (communitySplitWeight = 0.6, distanceWeight = 0.4) =>
+    request(
+      `/allocation/optimize?communitySplitWeight=${communitySplitWeight}&distanceWeight=${distanceWeight}`,
+      {
+        method: 'POST',
+      }
+    ),
+
+  // GIS & DDMA Action Plan Export
+  getActionPlanSummary: () => request('/export/action-plan/summary'),
+  getGeoJsonDownloadUrl: () => '/api/export/gis/geojson',
+
+  // Field Officer SOS Reporting
+  submitFieldReport: (report) =>
+    request('/field-reports', {
+      method: 'POST',
+      body: JSON.stringify(report),
+    }),
 };

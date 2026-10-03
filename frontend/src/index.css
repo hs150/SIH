@@ -138,3 +138,35 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 15px rgba(0,0,0,0.5);
   border: 2px solid white;
 }
+
+/* Accessibility & Command Center Instrument Styles */
+:focus-visible {
+  outline: 2px solid #38bdf8 !important;
+  outline-offset: 2px !important;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid #38bdf8 !important;
+  outline-offset: 2px !important;
+}
+
+/* Touch targets >= 44px on interactive controls */
+button, select, input[type="range"] {
+  min-height: 34px;
+}
+
+/* Tabular figures for coordinates & risk scores */
+.tabular-nums, code, [data-metric] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Reduced motion preference respect */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

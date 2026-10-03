@@ -36,8 +36,30 @@ public class HazardEvent {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "external_id", length = 255)
+    private String externalId;
+
+    @Column(name = "fetched_at")
+    private LocalDateTime fetchedAt;
+
     @Column(columnDefinition = "geometry(Geometry,4326)")
     private Geometry geometry;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("lat")
+    public Double getLatitude() {
+        if (geometry != null && geometry.getCoordinate() != null) {
+            return geometry.getCoordinate().getY();
+        }
+        return null;
+    }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("lng")
+    public Double getLongitude() {
+        if (geometry != null && geometry.getCoordinate() != null) {
+            return geometry.getCoordinate().getX();
+        }
+        return null;
+    }
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

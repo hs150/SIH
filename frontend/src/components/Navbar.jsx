@@ -1,10 +1,12 @@
 import React from 'react';
-import { Shield, Radio, User, LogOut, RefreshCw, Layers } from 'lucide-react';
+import { Shield, Radio, User, LogOut, RefreshCw, Layers, Sliders, Cpu } from 'lucide-react';
 
 export default function Navbar({ user, onLogout, activeTab, setActiveTab, onRefreshData, isRefreshing }) {
   const tabs = [
     { id: 'map', label: 'GIS Command Map', icon: Layers },
     { id: 'priorities', label: 'Relocation Priorities', icon: Shield },
+    { id: 'allocation', label: 'Optimal Allocation', icon: Sliders },
+    { id: 'predictive', label: 'AI Risk Engine', icon: Cpu },
     { id: 'redzones', label: 'Red Zones', icon: Radio },
     { id: 'relocations', label: 'Safe Relocation Sites', icon: User },
     { id: 'hazards', label: 'Hazard Events', icon: Shield },

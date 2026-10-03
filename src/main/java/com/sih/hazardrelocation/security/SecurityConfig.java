@@ -58,7 +58,12 @@ public class SecurityConfig {
                         // Authentication endpoints & error dispatch
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/error"
+                                "/error",
+                                "/api/ingestion/**",
+                                "/api/export/**",
+                                "/api/predictive/**",
+                                "/api/allocation/**",
+                                "/api/field-reports/**"
                         ).permitAll()
 
                         // Swagger / OpenAPI

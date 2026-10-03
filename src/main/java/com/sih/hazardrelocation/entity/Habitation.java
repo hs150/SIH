@@ -38,6 +38,10 @@ public class Habitation {
     @Column(name = "vulnerability_score")
     private Double vulnerabilityScore = 0.0;
 
+    public Double getVulnerabilityIndex() {
+        return vulnerabilityScore != null ? vulnerabilityScore : 0.0;
+    }
+
     @Column(columnDefinition = "geometry(Point,4326)")
     private Point geometry;
 

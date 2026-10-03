@@ -19,4 +19,6 @@ public interface HazardEventRepository extends JpaRepository<HazardEvent, UUID> 
     List<HazardEvent> findBySeverityGreaterThanEqual(
             Double severity
     );
+
+    java.util.Optional<HazardEvent> findByExternalId(String externalId);
 }

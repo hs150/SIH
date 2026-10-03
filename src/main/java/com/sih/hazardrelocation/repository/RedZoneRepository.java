@@ -13,4 +13,6 @@ public interface RedZoneRepository extends JpaRepository<RedZone, UUID> {
     List<RedZone> findByRiskLevelIgnoreCase(String riskLevel);
 
     List<RedZone> findByRiskLevelIgnoreCaseAndActiveTrue(String riskLevel);
+
+    java.util.Optional<RedZone> findByExternalId(String externalId);
 }

@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { api, authStorage } from './services/api';
 import Navbar from './components/Navbar';
+import ProvenanceStrip from './components/ProvenanceStrip';
 import MapView from './components/MapView';
 import PriorityEngineView from './components/PriorityEngineView';
+import AllocationOptimizerView from './components/AllocationOptimizerView';
+import PredictiveModelView from './components/PredictiveModelView';
 import RedZonesView from './components/RedZonesView';
 import RelocationSitesView from './components/RelocationSitesView';
 import HazardEventsView from './components/HazardEventsView';
 import HabitationsView from './components/HabitationsView';
+import FieldSosModal from './components/FieldSosModal';
 import LoginModal from './components/LoginModal';
 import { CheckCircle2, AlertTriangle, X } from 'lucide-react';
 
 export default function App() {
   const [user, setUser] = useState(authStorage.getUser());
   const [isAuthOpen, setIsAuthOpen] = useState(!authStorage.isAuthenticated());
+  const [isSosOpen, setIsSosOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('map');
 
   // Application Data States
@@ -239,6 +244,12 @@ export default function App() {
         isRefreshing={isRefreshing}
       />
 
+      {/* Persistent Telemetry Provenance Strip */}
+      <ProvenanceStrip
+        onDataRefreshed={loadAllData}
+        onOpenSosModal={() => setIsSosOpen(true)}
+      />
+
       {/* Main Content Views */}
       <main style={{ flex: 1 }}>
         {activeTab === 'map' && (
@@ -262,6 +273,14 @@ export default function App() {
             isRecalculating={isRecalculating}
             onSelectHabitationOnMap={(hab) => setActiveTab('map')}
           />
+        )}
+
+        {activeTab === 'allocation' && (
+          <AllocationOptimizerView />
+        )}
+
+        {activeTab === 'predictive' && (
+          <PredictiveModelView />
         )}
 
         {activeTab === 'redzones' && (
@@ -303,6 +322,13 @@ export default function App() {
       <LoginModal
         isOpen={isAuthOpen}
         onLogin={handleLogin}
+      />
+
+      {/* Field Officer Emergency SOS Modal */}
+      <FieldSosModal
+        isOpen={isSosOpen}
+        onClose={() => setIsSosOpen(false)}
+        onSubmitted={loadAllData}
       />
 
       {/* Toast Notification */}

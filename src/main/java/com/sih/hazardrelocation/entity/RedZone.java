@@ -26,11 +26,29 @@ public class RedZone {
     @Column(name = "risk_level", nullable = false, length = 30)
     private String riskLevel;
 
+    @Transient
+    @com.fasterxml.jackson.annotation.JsonProperty("hazardType")
+    private String hazardType;
+
+    public String getHazardType() {
+        return hazardType != null ? hazardType : "MULTI_HAZARD";
+    }
+
+    public void setHazardType(String hazardType) {
+        this.hazardType = hazardType;
+    }
+
     @Column(columnDefinition = "TEXT")
     private String reason;
 
     @Column(length = 255)
     private String source;
+
+    @Column(name = "external_id", length = 255)
+    private String externalId;
+
+    @Column(name = "fetched_at")
+    private java.time.LocalDateTime fetchedAt;
 
     @com.fasterxml.jackson.annotation.JsonIgnore
     @Column(columnDefinition = "geometry(MultiPolygon,4326)")
