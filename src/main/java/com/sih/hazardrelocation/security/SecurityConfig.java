@@ -44,6 +44,7 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
+                .cors(org.springframework.security.config.Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
 
                 .sessionManagement(session ->
@@ -54,9 +55,10 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // Authentication endpoints
+                        // Authentication endpoints & error dispatch
                         .requestMatchers(
-                                "/api/auth/**"
+                                "/api/auth/**",
+                                "/error"
                         ).permitAll()
 
                         // Swagger / OpenAPI
